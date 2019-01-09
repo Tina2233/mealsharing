@@ -1,0 +1,24 @@
+{
+  "name": "v1",
+  "version": "1.0.0",
+  "description": "YelpCamp v1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tina2233/YelpCamp.git"
+  },
+  "author": "Ting Wu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tina2233/YelpCamp/issues"
+  },
+  "homepage": "https://github.com/Tina2233/YelpCamp#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4"
+  }
+}
