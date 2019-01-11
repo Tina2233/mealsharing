@@ -10,19 +10,27 @@ app.set("view engine", "ejs");
 //Schema Setup
 var campgroundSchema = new mongoose.Schema({
     name: String,
-    image:String
+    image:String,
+    description: String
 });
 
 var Campground = mongoose.model("Campground", campgroundSchema);
 
-// Campground.create({name: "CA", image:""},function(err, campground){
-//     if(err){
-//         console.log(err);
-//     }else{
-//         console.log("NEWLY CREATED CAMPGROUND:");
-//         console.log(campground);
-//     }
-// });
+Campground.create(
+    {
+        name: "CA",
+        image:"",
+        description: "This is a huge granite hill"
+        
+    },
+    function(err, campground){
+    if(err){
+        console.log(err);
+    }else{
+        console.log("NEWLY CREATED CAMPGROUND:");
+        console.log(campground);
+    }
+});
 
 
 app.get("/", function(req,res){
@@ -59,6 +67,10 @@ app.post("/campgrounds", function(req,res){
 
 app.get("/campgrounds/new", function(req,res){
     res.render("new");
+});
+
+app.get("/campgrounds/:id",function(req, res) {
+    res.send("sdf");
 });
 
 app.listen(process.env.PORT, process.env.IP, function(){
