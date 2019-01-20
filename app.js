@@ -2,35 +2,15 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
+var Campground = require("./models/campground");
+//var Comment = require("./models/comment");
+var seedDB = require("./seeds");
 
-mongoose.connect("mongodb://localhost/yelp_camp");
+
+mongoose.connect("mongodb://localhost/yelp_camp_v3");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
-
-//Schema Setup
-var campgroundSchema = new mongoose.Schema({
-    name: String,
-    image:String,
-    description: String
-});
-
-var Campground = mongoose.model("Campground", campgroundSchema);
-
-Campground.create(
-    {
-        name: "CA",
-        image:"",
-        description: "This is a huge granite hill"
-        
-    },
-    function(err, campground){
-    if(err){
-        console.log(err);
-    }else{
-        console.log("NEWLY CREATED CAMPGROUND:");
-        console.log(campground);
-    }
-});
+seedDB();
 
 
 app.get("/", function(req,res){
@@ -43,7 +23,7 @@ app.get("/campgrounds", function(req,res){
         if(err){
             console.log(err);
         }else{
-            res.render("campgrounds", {campgrounds:allCampgrounds});
+            res.render("index", {campgrounds:allCampgrounds});
         }
     });
 });
@@ -52,7 +32,8 @@ app.post("/campgrounds", function(req,res){
   //res.send("You hit the post route");
   var name = req.body.name;
   var image = req.body.image;
-  var newCampground = {name: name, image: image};
+  var desc = req.body.description;
+  var newCampground = {name: name, image: image, description: desc};
   
   //Create a new campgound and save to DB
   Campground.create(newCampground, function(err,newlyCreated){
@@ -70,7 +51,13 @@ app.get("/campgrounds/new", function(req,res){
 });
 
 app.get("/campgrounds/:id",function(req, res) {
-    res.send("sdf");
+     Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampgrounds){
+        if(err){
+            console.log(err);
+        }else{
+            res.render("show", {campgrounds:foundCampgrounds});
+        }
+    });
 });
 
 app.listen(process.env.PORT, process.env.IP, function(){
