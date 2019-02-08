@@ -4,20 +4,20 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var passport    = require("passport");
 var LocalStrategy = require("passport-local");
-var Campground  = require("./models/campground");
-var Comment     = require("./models/comment");
+// var Restaurant  = require("./models/restaurant");
+// var Comment     = require("./models/comment");
 var flash       = require("connect-flash");
 var methodOverride = require("method-override");
 var User        = require("./models/user");
-var seedDB = require("./seeds");
+//var seedDB = require("./seeds");
 
 //requring routes
 var commentRoutes    = require("./routes/comments"),
-    campgroundRoutes = require("./routes/campgrounds"),
+    restaurantRoutes = require("./routes/restaurants"),
     indexRoutes      = require("./routes/index")
 
-//mongoose.connect("mongodb://localhost/yelp_camp_v6");
-mongoose.connect(process.env.DATABASEURL);
+mongoose.connect("mongodb://localhost/yelp_camp_v6");
+//mongoose.connect(process.env.DATABASEURL);
 //process.env.DATABASEURL
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -47,9 +47,9 @@ app.use(function(req, res, next){
 });
 
 app.use("/", indexRoutes);
-app.use("/campgrounds", campgroundRoutes);
-app.use("/campgrounds/:id/comments", commentRoutes);
+app.use("/restaurants", restaurantRoutes);
+app.use("/restaurants/:id/comments", commentRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function(){
-    console.log("The YelpCamp Server Has Started");
+    console.log("The Meal Sharing Server Has Started");
 });

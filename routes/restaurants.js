@@ -1,16 +1,16 @@
 var express = require("express");
 var router  = express.Router();
-var Campground = require("../models/campground");
+var Restaurant = require("../models/restaurant");
 var middleware = require("../middleware");
 
 //INDEX - show all campgrounds
 router.get("/", function(req, res){
     // Get all campgrounds from DB
-    Campground.find({}, function(err, allCampgrounds){
+    Restaurant.find({}, function(err, allRestaurants){
        if(err){
            console.log(err);
        } else {
-          res.render("campgrounds/index",{campgrounds:allCampgrounds});
+          res.render("restaurants/index",{restaurants:allRestaurants});
        }
     });
 });
@@ -26,67 +26,67 @@ router.post("/",  middleware.isLoggedIn, function(req, res){
         id: req.user._id,
         username: req.user.username
     }
-    var newCampground = {name: name, price: price, image: image, description: desc, author:author}
+    var newRestaurant = {name: name, price: price, image: image, description: desc, author:author}
     // Create a new campground and save to DB
-    Campground.create(newCampground, function(err, newlyCreated){
+    Restaurant.create(newRestaurant, function(err, newlyCreated){
         if(err){
             console.log(err);
         } else {
             //redirect back to campgrounds page
-            res.redirect("/campgrounds");
+            res.redirect("/restaurants");
         }
     });
 });
 
 //NEW - show form to create new campground
 router.get("/new", middleware.isLoggedIn, function(req, res){
-   res.render("campgrounds/new"); 
+   res.render("restaurants/new"); 
 });
 
 // SHOW - shows more info about one campground
 router.get("/:id", function(req, res){
     //find the campground with provided ID
-    Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
+    Restaurant.findById(req.params.id).populate("comments").exec(function(err, foundRestaurant){
         if(err){
             console.log(err);
         } else {
-            console.log(foundCampground)
+            console.log(foundRestaurant)
             //render show template with that campground
-            res.render("campgrounds/show", {campground: foundCampground});
+            res.render("restaurants/show", {restaurant: foundRestaurant});
         }
     });
 });
 
 // EDIT CAMPGROUND ROUTE
-router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req, res){
-    Campground.findById(req.params.id, function(err, foundCampground){
+router.get("/:id/edit", middleware.checkRestaurantOwnership, function(req, res){
+    Restaurant.findById(req.params.id, function(err, foundRestaurant){
         if(err){
             console.log(err);
         }
-        res.render("campgrounds/edit", {campground: foundCampground});
+        res.render("restaurants/edit", {restaurant: foundRestaurant});
     });
 });
 
 // UPDATE CAMPGROUND ROUTE
-router.put("/:id",middleware.checkCampgroundOwnership, function(req, res){
+router.put("/:id",middleware.checkRestaurantOwnership, function(req, res){
     // find and update the correct campground
-    Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedCampground){
+    Restaurant.findByIdAndUpdate(req.params.id, req.body.restaurant, function(err, updatedRestaurant){
        if(err){
-           res.redirect("/campgrounds");
+           res.redirect("/restaurants");
        } else {
            //redirect somewhere(show page)
-           res.redirect("/campgrounds/" + req.params.id);
+           res.redirect("/retaurants/" + req.params.id);
        }
     });
 });
 
 // DESTROY CAMPGROUND ROUTE
-router.delete("/:id",middleware.checkCampgroundOwnership, function(req, res){
-   Campground.findByIdAndRemove(req.params.id, function(err){
+router.delete("/:id",middleware.checkRestaurantOwnership, function(req, res){
+   Restaurant.findByIdAndRemove(req.params.id, function(err){
       if(err){
-          res.redirect("/campgrounds");
+          res.redirect("/restaurants");
       } else {
-          res.redirect("/campgrounds");
+          res.redirect("/restaurants");
       }
    });
 });

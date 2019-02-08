@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 
 //Schema Setup
-var campgroundSchema = new mongoose.Schema({
+var restaurantSchema = new mongoose.Schema({
     name: String,
     image:String,
     price: String,
@@ -20,4 +20,4 @@ var campgroundSchema = new mongoose.Schema({
     ]
 });
 
-module.exports = mongoose.model("Campground", campgroundSchema);
+module.exports = mongoose.model("Restaurant", restaurantSchema);

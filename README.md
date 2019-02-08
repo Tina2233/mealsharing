@@ -1,4 +1,4 @@
-# YelpCamp
+# Meal Sharing Website
 
 See the website:
 https://sleepy-escarpment-44246.herokuapp.com/
@@ -19,8 +19,8 @@ function:
 		One cannot manage posts and view user profile without being authenticated
 		One cannot edit or delete posts and comments created by other users
 		Admin can manage all posts and comments
-	•	Manage campground posts with basic functionalities:
+	•	Manage restaurant posts with basic functionalities:
 		Create, edit and delete posts and comments
-		Upload campground photos
+		Upload meal photos
 	•	Flash messages responding to users' interaction with the app
 
